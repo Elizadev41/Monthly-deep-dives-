@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Dive - Monthly Deep Dives</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    .article-container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+    .article-header {
+      margin-bottom: 40px;
+    }
+    .article-meta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .article-title {
+      font-family: var(--font-heading);
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .article-subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      font-style: italic;
+      margin-bottom: 24px;
+    }
+    .article-content {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--fg);
+    }
+    .article-content h2 {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 600;
+      margin-top: 40px;
+      margin-bottom: 16px;
+    }
+    .article-content h3 {
+      font-family: var(--font-heading);
+      font-size: 18px;
+      font-weight: 600;
+      margin-top: 24px;
+      margin-bottom: 12px;
+    }
+    .article-content p {
+      margin-bottom: 16px;
+    }
+    .article-content ul {
+      margin-left: 24px;
+      margin-bottom: 16px;
+    }
+    .article-content li {
+      margin-bottom: 8px;
+    }
+    .article-content strong {
+      font-weight: 600;
+      color: var(--fg);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Monthly Deep Dives</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" onclick="toggleMenu()">Home</a>
+      <a href="archive.html" onclick="toggleMenu()">Deep Dives</a>
+      <a href="ask.html" onclick="toggleMenu()">Ask a Question</a>
+      <a href="about.html" onclick="toggleMenu()">About</a>
+    </div>
+  </nav>
+
+  <!-- ARTICLE -->
+  <div class="article-container">
+    <div class="article-header" id="articleHeader">
+      <div class="article-meta">
+        <span class="badge badge-blue" id="articleCategory">Science</span>
+        <span class="card-date" id="articleDate">2026-06</span>
+      </div>
+      <h1 class="article-title" id="articleTitle">The Small but Mighty Killer</h1>
+      <p class="article-subtitle" id="articleSubtitle">A Research Journal on Mosquitoes</p>
+    </div>
+
+    <div class="article-content" id="articleContent">
+      <!-- Content will be inserted here -->
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Monthly Deep Dives</p>
+        <p class="muted small">One topic. One month. One deep dive at a time.</p>
+      </div>
+      <div class="footer-links">
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+        <a href="admin.html" style="color: #7a8b72; font-size: 14px;">Admin</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Monthly Deep Dives by Iyin</p>
+  </footer>
+
+  <script src="scrip.js"></script>
+  <script>
+    // Get slug from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const slug = urlParams.get('slug');
+    
+    // Find the article
+    const article = deepDives.find(d => d.slug === slug);
+    
+    if (article) {
+      document.title = article.title + ' - Monthly Deep Dives';
+      document.getElementById('articleTitle').textContent = article.title;
+      document.getElementById('articleCategory').textContent = article.category;
+      document.getElementById('articleCategory').className = 'badge ' + getBadgeClass(article.category);
+      document.getElementById('articleDate').textContent = article.date;
+      
+      // Load article content based on slug
+      if (slug === 'mosquitoes') {
+        loadMosquitoArticle();
+      }
+    }
+    
+    function loadMosquitoArticle() {
+      const content = `
+        <p><strong>Hook: Why One Tiny Insect Matters More Than You Think</strong></p>
+        <p>I used to think mosquitoes were just a normal part of life, especially growing up in a place where you get bitten so often that you stop paying attention.</p>
+        <p>But then I found out something unexpected: this "normal" insect is considered one of the deadliest animals in the world. That made me question everything I thought I knew about them.</p>
+
+        <h2>1. Why I Chose This Topic</h2>
+        <p>I started researching mosquitoes after searching up dangerous animals and being surprised to see them ranked near the top. At first, I thought it had to be exaggerated but the more I looked into it, the more I realized there might be more to the story.</p>
+        <p>Growing up in Nigeria until I was 11, mosquito bites were just part of everyday life. They happened so often that I barely paid attention. I did get sick a few times, and I even remember going to the hospital once or twice, but I never connected that experience to anything as serious as "deadly insects."</p>
+        <p>That's what made me curious. If mosquitoes are considered one of the most dangerous animals in the world, why do they feel so normal in everyday life? Was my experience typical, or was I missing something bigger?</p>
+
+        <h2>2. First Impressions & Assumptions</h2>
+        <p><strong>Before this research, I believed:</strong></p>
+        <ul>
+          <li>Mosquitoes are annoying but not seriously dangerous</li>
+          <li>Their danger is often overstated</li>
+          <li>Bites usually cause only short-term irritation</li>
+          <li>They are more dangerous in some regions than others</li>
+        </ul>
+        <p>Because I grew up around them, I assumed the risk wasn't as serious as people say.</p>
+        <p><strong>Questions I wanted to answer:</strong></p>
+        <ul>
+          <li>Are mosquitoes actually deadly?</li>
+          <li>Why do they affect some people more than others?</li>
+          <li>Why are they considered dangerous instead of just annoying?</li>
+          <li>Was my experience normal or just luck?</li>
+        </ul>
+
+        <h2>3. What Exactly Is a Mosquito?</h2>
+        <p>A mosquito is a small flying insect found almost everywhere in the world. It belongs to a group of insects that can survive in both water and land environments, which explains why they are so widespread.</p>
+        <p>Mosquitoes have six legs, wings, and a specialized mouthpart called proboscis, which allows them to pierce skin and feed.</p>
+        <p>A key fact is that <strong>only female mosquitoes bite humans</strong>. Males feed on plant nectar, while females require blood to develop eggs. This makes biting a reproductive process, not simple feeding.</p>
+        <p>Mosquitoes are also closely tied to water, since their early life stages depend on still or standing water.</p>
+
+        <h2>4. The Mosquito Life Cycle (From Egg to Adult)</h2>
+        <p>Mosquitoes undergo complete metamorphosis with four stages:</p>
+        <ul>
+          <li><strong>Egg:</strong> laid on or near still water</li>
+          <li><strong>Larva:</strong> lives in water and feeds on organic material</li>
+          <li><strong>Pupa:</strong> a resting stage where no feeding occurs</li>
+          <li><strong>Adult:</strong> emerges, reproduces, and (in females) bites</li>
+        </ul>
+        <p>This cycle explains why removing standing water is one of the most effective ways to reduce mosquito populations.</p>
+
+        <h2>5. Why Mosquitoes Bite Humans</h2>
+        <p>Mosquitoes don't bite humans randomly. In fact, only female mosquitoes bite, and they do it for a very specific biological reason: they need nutrients from blood to help develop their eggs.</p>
+        <p>When a mosquito is searching for a host, it doesn't rely on just one signal. Instead, it uses a combination of senses to locate humans with surprising accuracy.</p>
+        <p>One of the first things mosquitoes detect is carbon dioxide (CO₂). Every time a person exhales, they release CO₂ into the air. Mosquitoes can sense this from a distance, and it acts like a signal that a potential host is nearby. People who are breathing heavily such as during exercise tend to release more CO₂, which can make them easier to locate.</p>
+        <p>As they get closer, mosquitoes rely on additional cues like body heat and movement. Human bodies naturally give off heat, and mosquitoes can detect even small temperature differences. This helps them narrow down where to land.</p>
+        <p>Finally, mosquitoes use smell and visual cues to find the exact spot to bite. Skin odors, sweat chemicals, and even clothing color can help guide them in the final stage of their search.</p>
+        <p>In short, mosquito biting behavior is a step-by-step process: they detect CO₂ from afar, move toward heat and movement, and then use smell and vision to finish locating their target.</p>
+
+        <h2>6. How Mosquitoes Spread Disease</h2>
+        <p>Mosquitoes are not dangerous because of their bite itself, but because they can act as <strong>vectors</strong> (organisms that carry and transmit disease-causing pathogens between hosts).</p>
+        <p>A pathogen is a germ such as a virus, bacteria, or parasite that can cause illness. When a mosquito feeds on blood, it can pick up these pathogens from an infected animal or human. Later, when it feeds again, it can transfer them to a new host through its saliva.</p>
+        <p>One of the most well-known mosquito-borne diseases is <strong>malaria</strong>, which is caused by a parasite. Malaria spreads specifically through female <em>Anopheles</em> mosquitoes. These mosquitoes become infected when they bite a person who already carries the malaria parasite. After about a week, the parasite develops inside the mosquito, and it can then be passed on to another person during a later bite.</p>
+        <p>During feeding, the mosquito injects saliva into the skin to prevent blood from clotting. If it is carrying a pathogen, this is the point where the disease can enter the bloodstream.</p>
+        <p>It is important to note that mosquito-borne diseases do not spread from person to person through casual contact. You cannot catch malaria or similar diseases by sitting near, touching, or interacting with someone who is infected. Transmission requires the mosquito as an intermediate carrier.</p>
+        <p>Some mosquito-borne diseases can also spread through less common routes, such as contaminated blood transfusions, shared needles, or from mother to child during pregnancy or birth. However, these cases are rare compared to mosquito transmission.</p>
+        <p>Because mosquitoes are widespread and often live close to humans, they are highly efficient at spreading diseases on a large scale. This is what makes them one of the most medically significant insects in the world.</p>
+
+        <h2>7. Why Some People Get Bitten More Than Others</h2>
+        <p>Even though mosquitoes are found in many environments, they do not bite people equally. Some individuals seem to attract significantly more mosquito bites than others, and this difference is linked to a combination of biological and environmental factors.</p>
+        <p>One major factor is carbon dioxide output. Mosquitoes use CO₂ as a primary signal to locate humans. People who naturally exhale more CO₂ such as during exercise or physical activity are easier for mosquitoes to detect from a distance.</p>
+        <p>Another important factor is body chemistry and scent. Human skin produces a wide range of chemicals through sweat, including lactic acid, ammonia, and other compounds. These interact with bacteria on the skin, creating unique body odors. Some of these scent profiles are more attractive to mosquitoes than others, meaning attraction can vary significantly between individuals.</p>
+        <p>Body temperature also plays a role. Mosquitoes are sensitive to heat and tend to be drawn toward warmer bodies. After exercise or in hot environments, increased body heat can make someone more noticeable to mosquitoes.</p>
+        <p>In addition, visual cues such as clothing color may influence attraction. Research suggests mosquitoes are more likely to approach darker colors, which may provide stronger visual contrast against the environment.</p>
+        <p>Other factors that may increase mosquito attraction include pregnancy, which changes body temperature and metabolism, and certain lifestyle factors such as alcohol consumption, which can slightly alter body chemistry.</p>
+
+        <h2>8. Why Mosquitoes Are Among the Deadliest Animals on Earth</h2>
+        <p>Mosquitoes are widely considered the deadliest animals in the world, causing an estimated hundreds of thousands to nearly one million deaths each year. Unlike animals that rely on physical strength or venom, mosquitoes are dangerous because they act as extremely efficient vectors organisms that transmit disease-causing pathogens between hosts.</p>
+        <p>What makes them especially dangerous is not the bite itself, but what is transferred during feeding. When a mosquito pierces the skin, it injects saliva to prevent blood from clotting. If it is carrying a virus or parasite, this becomes the direct pathway for infection to enter the bloodstream.</p>
+        <p>Mosquito-borne diseases account for a significant portion of global infectious disease cases. While there are thousands of mosquito species in the world, only a small percentage are responsible for most human infections. This makes the threat highly concentrated but widespread in impact.</p>
+        <p><strong>Some of the most serious mosquito-borne diseases include:</strong></p>
+        <ul>
+          <li>Malaria, which causes hundreds of thousands of deaths annually, especially in children in parts of Africa</li>
+          <li>Dengue fever, which infects millions of people worldwide every year</li>
+          <li>Other viruses such as Zika, West Nile, Yellow Fever, and Chikungunya, some of which can cause long-term or severe health complications</li>
+        </ul>
+        <p>Several factors make mosquitoes so effective at spreading disease. Their feeding mechanism is highly specialized, allowing them to quickly access blood vessels. Only female mosquitoes bite, since they require blood to develop eggs. In addition, mosquitoes are extremely adaptable and can survive in many environments across the world, from rural regions to urban areas.</p>
+        <p>Because of this combination efficient transmission, global distribution, and close contact with humans mosquitoes remain one of the most significant disease carriers on the planet.</p>
+
+        <h2>9. How Humans Protect Themselves</h2>
+        <p><strong>Protection against mosquitoes happens on three levels:</strong></p>
+        <p><strong>Personal protection</strong></p>
+        <ul>
+          <li>Repellents (DEET, picaridin, oil of lemon eucalyptus)</li>
+          <li>Long clothing and light colors</li>
+          <li>Permethrin-treated gear</li>
+        </ul>
+        <p><strong>Environmental control</strong></p>
+        <ul>
+          <li>Removing standing water</li>
+          <li>Using screens on windows and doors</li>
+          <li>Sleeping under insecticide-treated bed nets</li>
+        </ul>
+        <p><strong>Community & scientific control</strong></p>
+        <ul>
+          <li>Larvicides and adulticides</li>
+          <li>Biological control (e.g., <em>Bti</em>)</li>
+          <li>Sterile mosquito release programs</li>
+          <li>Vaccines and medications for diseases like malaria</li>
+        </ul>
+
+        <h2>10. Do Mosquitoes Actually Have a Purpose in Nature?</h2>
+        <p>Even though mosquitoes are widely known for spreading disease, they still play a role in ecosystems. In nature, every species exists within a larger food web, and mosquitoes are no exception.</p>
+        <p>Mosquitoes serve as a food source for many animals, including birds, fish, bats, and other insects. Their larvae are especially important in aquatic ecosystems, where they contribute to the transfer of nutrients in water environments.</p>
+        <p>Adult mosquitoes also feed on nectar, which means they can take part in plant pollination, although this role is much smaller compared to other insects like bees.</p>
+        <p>However, while mosquitoes do have ecological roles, their impact on human health makes them a unique case. Unlike many species, their presence is strongly associated with disease transmission, which raises ongoing debates about whether controlling or reducing mosquito populations is beneficial or harmful to ecosystems.</p>
+        <p>This creates a complex question: mosquitoes are part of nature's balance, but they also pose one of the most significant biological risks to humans.</p>
+
+        <h2>11. Final Thoughts: What I Learned From This Research</h2>
+        <p>Before starting this journal, I saw mosquitoes as nothing more than a normal annoyance something you deal with and move on from. But through this research, I realized they are far more complex than they appear.</p>
+        <p>Mosquitoes are not dangerous because of size or strength, but because of biology, behavior, and their ability to transmit disease efficiently. What makes them especially interesting is the gap between perception and reality: something so small can have such a large global impact.</p>
+        <p>I also learned that mosquito attraction is not random. It is influenced by factors like carbon dioxide, body chemistry, heat, and even the environment. At the same time, humans have developed multiple layers of protection from personal repellents to global disease control systems.</p>
+        <p>Overall, this topic showed me how interconnected biology, health, and environment really are. Something as small as a mosquito can connect individual human behavior to global public health.</p>
+      `;
+      document.getElementById('articleContent').innerHTML = content;
+    }
+  </script>
+</body>
+</html>

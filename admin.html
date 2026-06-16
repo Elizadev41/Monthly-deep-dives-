@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Monthly Deep Dives</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/build/index.min.js"></script>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="index.html" class="logo">Monthly Deep Dives</a>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+      <div id="mobileMenu" class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <h1>📧 Admin Panel</h1>
+    
+    <section class="admin-section">
+      <h2>Send Newsletter to Subscribers</h2>
+      
+      <div class="form-group">
+        <label for="emailjsKey">EmailJS Public Key:</label>
+        <input type="text" id="emailjsKey" placeholder="Get from emailjs.com" />
+        <small>Save this in browser storage so you don't have to paste it every time</small>
+      </div>
+
+      <div class="form-group">
+        <label for="emailjsService">EmailJS Service ID:</label>
+        <input type="text" id="emailjsService" placeholder="e.g., service_abc123" />
+      </div>
+
+      <div class="form-group">
+        <label for="emailjsTemplate">EmailJS Template ID:</label>
+        <input type="text" id="emailjsTemplate" placeholder="e.g., template_xyz789" />
+      </div>
+
+      <div class="form-group">
+        <label for="emailSubject">Email Subject:</label>
+        <input type="text" id="emailSubject" placeholder="New Monthly Deep Dive Published!" value="New Monthly Deep Dive Published!" />
+      </div>
+
+      <div class="form-group">
+        <label for="emailBody">Email Body:</label>
+        <textarea id="emailBody" placeholder="Check out the latest article..." style="min-height: 150px;">Hi there!
+
+A new Monthly Deep Dive has been published. Check it out and let me know what you think!
+
+https://yourwebsite.com
+
+Happy learning,
+Iyin</textarea>
+      </div>
+
+      <button onclick="sendNewsletter()" class="btn-dark" style="width: 100%; padding: 12px; font-size: 16px; cursor: pointer;">
+        📤 Send to All Subscribers
+      </button>
+
+      <div id="status" style="margin-top: 20px; padding: 15px; border-radius: 8px; display: none;"></div>
+
+      <hr style="margin: 30px 0;">
+
+      <h3>Subscriber List</h3>
+      <div id="subscriberList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 300px; overflow-y: auto;">
+        <p class="muted">No subscribers yet</p>
+      </div>
+
+      <button onclick="copySubscribers()" class="btn-outline" style="width: 100%; margin-top: 10px; padding: 10px;">
+        Copy All Emails
+      </button>
+
+      <hr style="margin: 30px 0;">
+
+      <h3>Questions Submitted</h3>
+      <div id="questionsList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 300px; overflow-y: auto;">
+        <p class="muted">No questions yet</p>
+      </div>
+    </section>
+
+    <section class="admin-info" style="margin-top: 40px; padding: 20px; background: var(--secondary); border-radius: 8px;">
+      <h3>How to Set Up:</h3>
+      <ol style="line-height: 1.8;">
+        <li>Go to <a href="https://www.emailjs.com/" target="_blank">emailjs.com</a> and create a free account</li>
+        <li>Connect your Gmail account as an email service</li>
+        <li>Create an email template with {{email_body}} placeholder</li>
+        <li>Copy your Public Key, Service ID, and Template ID here</li>
+        <li>Click "Send to All Subscribers" when you publish a new article</li>
+      </ol>
+      <p><strong>Privacy:</strong> These keys are stored in your browser only. Never shared with anyone.</p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Monthly Deep Dives by Iyin. All rights reserved.</p>
+  </footer>
+
+  <script src="scrip.js"></script>
+  <script>
+    // Load stored keys on page load
+    window.addEventListener('DOMContentLoaded', function() {
+      const storedKey = localStorage.getItem('emailjsKey');
+      const storedService = localStorage.getItem('emailjsService');
+      const storedTemplate = localStorage.getItem('emailjsTemplate');
+      
+      if (storedKey) document.getElementById('emailjsKey').value = storedKey;
+      if (storedService) document.getElementById('emailjsService').value = storedService;
+      if (storedTemplate) document.getElementById('emailjsTemplate').value = storedTemplate;
+      
+      displaySubscribers();
+      displayQuestions();
+    });
+
+    function displaySubscribers() {
+      const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
+      const list = document.getElementById('subscriberList');
+      
+      if (subscribers.length === 0) {
+        list.innerHTML = '<p class="muted">No subscribers yet</p>';
+      } else {
+        list.innerHTML = subscribers.map((email, i) => 
+          `<div style="padding: 8px 0; border-bottom: 1px solid var(--border);">${i + 1}. ${email}</div>`
+        ).join('');
+      }
+    }
+
+    function displayQuestions() {
+      const questions = JSON.parse(localStorage.getItem('questions') || '[]');
+      const list = document.getElementById('questionsList');
+      
+      if (questions.length === 0) {
+        list.innerHTML = '<p class="muted">No questions yet</p>';
+      } else {
+        list.innerHTML = questions.map((q, i) => `
+          <div style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+            <strong>${i + 1}. ${q.email}</strong>
+            <p style="margin: 5px 0 0 0;">${q.question}</p>
+            <small class="muted">${new Date(q.date).toLocaleDateString()}</small>
+          </div>
+        `).join('');
+      }
+    }
+
+    function copySubscribers() {
+      const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
+      const emails = subscribers.join(', ');
+      navigator.clipboard.writeText(emails).then(() => {
+        alert('Copied ' + subscribers.length + ' emails to clipboard!');
+      });
+    }
+
+    async function sendNewsletter() {
+      const publicKey = document.getElementById('emailjsKey').value;
+      const serviceId = document.getElementById('emailjsService').value;
+      const templateId = document.getElementById('emailjsTemplate').value;
+      const subject = document.getElementById('emailSubject').value;
+      const body = document.getElementById('emailBody').value;
+      
+      // Validate inputs
+      if (!publicKey || !serviceId || !templateId) {
+        showStatus('❌ Please fill in all EmailJS credentials', 'error');
+        return;
+      }
+
+      // Save keys for next time
+      localStorage.setItem('emailjsKey', publicKey);
+      localStorage.setItem('emailjsService', serviceId);
+      localStorage.setItem('emailjsTemplate', templateId);
+
+      const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
+      
+      if (subscribers.length === 0) {
+        showStatus('❌ No subscribers to email yet', 'error');
+        return;
+      }
+
+      showStatus('⏳ Sending to ' + subscribers.length + ' subscribers...', 'loading');
+
+      try {
+        emailjs.init(publicKey);
+        
+        let sent = 0;
+        let failed = 0;
+
+        for (const email of subscribers) {
+          try {
+            await emailjs.send(serviceId, templateId, {
+              to_email: email,
+              email_subject: subject,
+              email_body: body
+            });
+            sent++;
+          } catch (err) {
+            failed++;
+            console.error('Failed to send to ' + email, err);
+          }
+        }
+
+        if (failed === 0) {
+          showStatus(`✅ Successfully sent to all ${sent} subscribers!`, 'success');
+        } else {
+          showStatus(`⚠️ Sent to ${sent} subscribers, ${failed} failed`, 'warning');
+        }
+      } catch (err) {
+        showStatus('❌ Error: ' + err.message, 'error');
+        console.error(err);
+      }
+    }
+
+    function showStatus(message, type) {
+      const status = document.getElementById('status');
+      status.textContent = message;
+      status.style.display = 'block';
+      
+      if (type === 'success') {
+        status.style.background = '#d4edda';
+        status.style.color = '#155724';
+        status.style.border = '1px solid #c3e6cb';
+      } else if (type === 'error') {
+        status.style.background = '#f8d7da';
+        status.style.color = '#721c24';
+        status.style.border = '1px solid #f5c6cb';
+      } else if (type === 'warning') {
+        status.style.background = '#fff3cd';
+        status.style.color = '#856404';
+        status.style.border = '1px solid #ffeaa7';
+      } else {
+        status.style.background = 'var(--secondary)';
+        status.style.color = 'var(--fg)';
+      }
+    }
+  </script>
+
+  <style>
+    .admin-section {
+      background: var(--secondary);
+      padding: 30px;
+      border-radius: 8px;
+      margin: 20px 0;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--fg);
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-family: 'Lora', serif;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    .form-group small {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+    }
+
+    .admin-info ol {
+      padding-left: 20px;
+    }
+
+    .admin-info a {
+      color: #3a6b3a;
+      text-decoration: underline;
+    }
+
+    .admin-info a:hover {
+      color: var(--fg);
+    }
+  </style>
+</body>
+</html>

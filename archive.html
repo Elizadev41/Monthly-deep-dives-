@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deep Dives Archive</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Monthly Deep Dives</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" onclick="toggleMenu()">Home</a>
+      <a href="archive.html" onclick="toggleMenu()">Deep Dives</a>
+      <a href="ask.html" onclick="toggleMenu()">Ask a Question</a>
+      <a href="about.html" onclick="toggleMenu()">About</a>
+    </div>
+  </nav>
+
+  <!-- ARCHIVE -->
+  <section class="section">
+    <h1>All Deep Dives</h1>
+    <p class="muted">Explore all of my research and discoveries.</p>
+    <div class="archive-grid" id="archiveGrid">
+      <p class="muted">Loading...</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Monthly Deep Dives</p>
+        <p class="muted small">One topic. One month. One deep dive at a time.</p>
+      </div>
+      <div class="footer-links">
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+        <a href="admin.html" style="color: #7a8b72; font-size: 14px;">Admin</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Monthly Deep Dives by Iyin</p>
+  </footer>
+
+  <script src="scrip.js"></script>
+  <script>
+    // Render archive grid
+    const archiveGrid = document.getElementById('archiveGrid');
+    if (archiveGrid && deepDives.length > 0) {
+      archiveGrid.innerHTML = deepDives.map(dive => {
+        return `
+          <a href="deep-dive.html?slug=${dive.slug}" class="card">
+            <div class="card-meta">
+              <span class="badge ${getBadgeClass(dive.category)}">${dive.category}</span>
+              <span class="card-date">${dive.date}</span>
+            </div>
+            <h3>${dive.title}</h3>
+            <p>${dive.abstract}</p>
+            <span class="card-arrow">Read it →</span>
+          </a>
+        `;
+      }).join('');
+    }
+  </script>
+</body>
+</html>

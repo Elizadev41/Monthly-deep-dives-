@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ask a Question</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Monthly Deep Dives</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" onclick="toggleMenu()">Home</a>
+      <a href="archive.html" onclick="toggleMenu()">Deep Dives</a>
+      <a href="ask.html" onclick="toggleMenu()">Ask a Question</a>
+      <a href="about.html" onclick="toggleMenu()">About</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <section class="section">
+    <h1>Ask Me Something</h1>
+    <p class="muted">Have a question you'd like me to research? Send it my way!</p>
+    <form class="subscribe-form" id="askForm" style="max-width: 100%; margin-top: 32px;" onsubmit="handleAsk(event)">
+      <textarea id="askQuestion" placeholder="What would you like to know?" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-family: var(--font-body); font-size: 14px; min-height: 120px; resize: vertical;" required></textarea>
+      <input type="email" id="askEmail" placeholder="your@email.com" style="width: 100%; margin-top: 12px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 6px; font-family: var(--font-body);" required />
+      <button type="submit" style="margin-top: 12px;">Submit Question →</button>
+    </form>
+    <p id="askSuccess" class="success-msg" style="display:none; margin-top: 20px;">✓ Thanks for the question! I'll add it to my research list.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Monthly Deep Dives</p>
+        <p class="muted small">One topic. One month. One deep dive at a time.</p>
+      </div>
+      <div class="footer-links">
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+        <a href="admin.html" style="color: #7a8b72; font-size: 14px;">Admin</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Monthly Deep Dives by Iyin</p>
+  </footer>
+
+  <script src="scrip.js"></script>
+  <script>
+    function handleAsk(e) {
+      e.preventDefault();
+      const question = document.getElementById('askQuestion').value;
+      const email = document.getElementById('askEmail').value;
+      
+      // Store question in localStorage
+      let questions = JSON.parse(localStorage.getItem('questions') || '[]');
+      questions.push({
+        email: email,
+        question: question,
+        date: new Date().toISOString()
+      });
+      localStorage.setItem('questions', JSON.stringify(questions));
+      
+      document.getElementById('askForm').style.display = 'none';
+      document.getElementById('askSuccess').style.display = 'block';
+      console.log('Question submitted:', { question, email, total: questions.length });
+    }
+  </script>
+</body>
+</html>

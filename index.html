@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Monthly Deep Dives</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Monthly Deep Dives</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" onclick="toggleMenu()">Home</a>
+      <a href="archive.html" onclick="toggleMenu()">Deep Dives</a>
+      <a href="ask.html" onclick="toggleMenu()">Ask a Question</a>
+      <a href="about.html" onclick="toggleMenu()">About</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Monthly Deep Dives</h1>
+    <p>Hi, I'm Iyin  I'm 14 and I love asking big questions. Every month I pick one topic and research it as deep as I can.</p>
+    <p>Science, sports, faith, people, the world. One topic. One month. One deep dive.</p>
+    <div class="hero-buttons">
+      <a href="archive.html" class="btn btn-dark">Read the Deep Dives →</a>
+      <a href="ask.html" class="btn btn-outline">Ask me something</a>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- LATEST -->
+  <section class="section">
+    <div class="section-header">
+      <h2>Latest Deep Dive</h2>
+      <a href="archive.html" class="see-all">See all →</a>
+    </div>
+    <div class="card" id="latestDive">
+      <p class="muted">Loading...</p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SUBSCRIBE -->
+  <section class="section">
+    <h2>Want to follow along?</h2>
+    <p class="muted">I'll email you when a new one drops. No spam, just the deep dive.</p>
+    <form class="subscribe-form" id="subscribeForm" onsubmit="handleSubscribe(event)">
+      <input type="email" id="subEmail" placeholder="your@email.com" required />
+      <button type="submit">Subscribe →</button>
+    </form>
+    <p id="subSuccess" class="success-msg" style="display:none">✓ You're in. See you next month.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Monthly Deep Dives</p>
+        <p class="muted small">One topic. One month. One deep dive at a time.</p>
+      </div>
+      <div class="footer-links">
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+        <a href="admin.html" style="color: #7a8b72; font-size: 14px;">Admin</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Monthly Deep Dives by Iyin</p>
+  </footer>
+
+  <script src="scrip.js"></script>
+</body>
+</html>

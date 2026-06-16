@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">Monthly Deep Dives</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+      </div>
+      <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" onclick="toggleMenu()">Home</a>
+      <a href="archive.html" onclick="toggleMenu()">Deep Dives</a>
+      <a href="ask.html" onclick="toggleMenu()">Ask a Question</a>
+      <a href="about.html" onclick="toggleMenu()">About</a>
+    </div>
+  </nav>
+
+  <!-- CONTENT -->
+  <section class="section">
+    <h1>About This Project</h1>
+    <p>Hi, I'm Iyin. I'm 14 and I love asking big questions about the world.</p>
+    <p>Every month, I pick one topic that interests me and research it as deeply as I can. I read studies, look at statistics, think about what I've experienced, and try to find the story behind something that most people overlook.</p>
+    
+    <h2 style="margin-top: 32px;">Why I Started This</h2>
+    <p>Growing up, I noticed that the things people worry about aren't always the things that matter most. A mosquito seems harmless, but it's one of the deadliest animals on Earth. AI sounds scary, but most people don't understand how it works. Climate change feels too big to care about, but it's already changing where we live.</p>
+    <p>I wanted to create a space where I could dive deep into topics that seem simple on the surface but are actually really complex. And I wanted to share what I learn with other people who are curious about how the world actually works.</p>
+
+    <h2 style="margin-top: 32px;">How It Works</h2>
+    <p>Every month, I choose a new topic. I spend weeks researching it—reading books, finding studies, talking to people, and thinking about what I've learned. Then I write up my findings in a "deep dive."</p>
+    <p>These aren't meant to be the final word on anything. They're my research, my thinking, and my attempt to understand something complex. They're personal but also factual.</p>
+
+    <h2 style="margin-top: 32px;">What Interests Me</h2>
+    <p>I'm interested in science, people, health, spirituality, nature, and how the world is changing. But honestly, I'll research almost anything if I'm curious enough about it.</p>
+
+    <h2 style="margin-top: 32px;">Questions?</h2>
+    <p>Have a topic you think I should research? <a href="ask.html" style="color: var(--fg); text-decoration: underline; font-weight: 500;">Send me a question</a> and I might write about it next month.</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>
+        <p class="footer-title">Monthly Deep Dives</p>
+        <p class="muted small">One topic. One month. One deep dive at a time.</p>
+      </div>
+      <div class="footer-links">
+        <a href="archive.html">Deep Dives</a>
+        <a href="ask.html">Ask a Question</a>
+        <a href="about.html">About</a>
+        <a href="admin.html" style="color: #7a8b72; font-size: 14px;">Admin</a>
+      </div>
+    </div>
+    <p class="footer-copy">© 2026 Monthly Deep Dives by Iyin</p>
+  </footer>
+
+  <script src="scrip.js"></script>
+</body>
+</html>
