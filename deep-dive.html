@@ -217,7 +217,7 @@
 
       const form = document.getElementById('commentForm');
       if (!form) return;
-      form.addEventListener('submit', function(e) {
+      form.onsubmit = function(e) {
         e.preventDefault();
         const name = document.getElementById('commentName').value.trim();
         const text = document.getElementById('commentText').value.trim();
@@ -234,51 +234,120 @@
         const comments = getComments();
         comments.unshift(newComment);
         saveComments(comments);
-        renderCommentsSection();
         form.reset();
-      });
+        renderCommentsSection();
+      };
     }
 
     function loadMosquitoArticle() {
       const content = `
         <p><strong>Hook: Why One Tiny Insect Matters More Than You Think</strong></p>
-        <p>I used to think mosquitoes were just a normal part of life, especially growing up in a place where you get bitten so often that you stop paying attention.</p>
-        <p>But then I found out something unexpected: this "normal" insect is considered one of the deadliest animals in the world. That made me question everything I thought I knew about them.</p>
+        <p>For a long time, mosquitoes felt like a simple nuisance — a small bite, a little itch, and then you moved on. But that changed when I learned they are ranked among the deadliest animals on earth.</p>
+        <p>In this deep dive, I wanted to understand why a creature so easy to ignore can have such a huge impact on human health and history.</p>
 
         <h2>1. Why I Chose This Topic</h2>
-        <p>I started researching mosquitoes after searching up dangerous animals and being surprised to see them ranked near the top. At first, I thought it had to be exaggerated but the more I looked into it, the more I realized there might be more to the story.</p>
-        <p>Growing up in Nigeria until I was 11, mosquito bites were just part of everyday life. They happened so often that I barely paid attention. I did get sick a few times, and I even remember going to the hospital once or twice, but I never connected that experience to anything as serious as "deadly insects."</p>
-        <p>That's what made me curious. If mosquitoes are considered one of the most dangerous animals in the world, why do they feel so normal in everyday life? Was my experience typical, or was I missing something bigger?</p>
+        <p>My own experience made this topic feel personal. Growing up in Nigeria until age 11, I saw mosquito bites as part of daily life. They were common, annoying, and mostly normal.</p>
+        <p>Then I discovered the other side of the story: mosquitoes are not dangerous because of their size or their sting. They are dangerous because they carry diseases that can be deadly.</p>
+        <p>That contrast between what I saw and what science says is what drove this research.</p>
 
         <h2>2. First Impressions & Assumptions</h2>
-        <p><strong>Before this research, I believed:</strong></p>
+        <p><strong>Before researching, I believed:</strong></p>
         <ul>
           <li>Mosquitoes are annoying but not seriously dangerous</li>
           <li>Their danger is often overstated</li>
-          <li>Bites usually cause only short-term irritation</li>
-          <li>They are more dangerous in some regions than others</li>
+          <li>Most bites only cause temporary irritation</li>
+          <li>They are only a serious problem in some countries</li>
         </ul>
-        <p>Because I grew up around them, I assumed the risk wasn't as serious as people say.</p>
-        <p><strong>Questions I wanted to answer:</strong></p>
-        <ul>
-          <li>Are mosquitoes actually deadly?</li>
-          <li>Why do they affect some people more than others?</li>
-          <li>Why are they considered dangerous instead of just annoying?</li>
-          <li>Was my experience normal or just luck?</li>
-        </ul>
+        <p>These assumptions made sense based on daily life, but the research showed that the truth depends on biology, location, and the diseases the mosquito might carry.</p>
 
         <h2>3. What Exactly Is a Mosquito?</h2>
-        <p>A mosquito is a small flying insect found almost everywhere in the world. It belongs to a group of insects that can survive in both water and land environments, which explains why they are so widespread.</p>
-        <p>Mosquitoes have six legs, wings, and a specialized mouthpart called proboscis, which allows them to pierce skin and feed.</p>
-        <p>A key fact is that <strong>only female mosquitoes bite humans</strong>. Males feed on plant nectar, while females require blood to develop eggs. This makes biting a reproductive process, not simple feeding.</p>
-        <p>Mosquitoes are also closely tied to water, since their early life stages depend on still or standing water.</p>
+        <p>Mosquitoes are small flying insects found in nearly every part of the world. They are built for survival in both water and on land, which is why they seem to appear almost anywhere there is standing water.</p>
+        <p>They have six legs, wings, and a long mouthpart called a proboscis. That proboscis is what allows the female mosquito to pierce skin and draw blood.</p>
+        <p>Important fact: <strong>only female mosquitoes bite humans</strong>. Male mosquitoes feed on plant nectar, while females bites are driven by reproduction — they need blood protein to grow their eggs.</p>
 
-        <h2>4. The Mosquito Life Cycle (From Egg to Adult)</h2>
-        <p>Mosquitoes undergo complete metamorphosis with four stages:</p>
+        <h2>4. The Mosquito Life Cycle</h2>
+        <p>Mosquitoes have four life stages:</p>
         <ul>
           <li><strong>Egg:</strong> laid on or near still water</li>
           <li><strong>Larva:</strong> lives in water and feeds on organic material</li>
           <li><strong>Pupa:</strong> a resting stage where no feeding occurs</li>
+          <li><strong>Adult:</strong> emerges to fly, reproduce, and (for females) bite</li>
+        </ul>
+        <p>That is why removing standing water is one of the best ways to reduce mosquito populations.</p>
+
+        <h2>5. How Mosquitoes Find People</h2>
+        <p>Mosquitoes do not bite randomly. Female mosquitoes search for people using a sequence of signals:</p>
+        <ul>
+          <li>Carbon dioxide from breath</li>
+          <li>Body heat</li>
+          <li>Skin odors and sweat</li>
+          <li>Movement and visual contrast</li>
+        </ul>
+        <p>These steps explain why mosquitoes can seem attracted to some people more than others. They are following a path of signals, not just biting whoever is closest.</p>
+
+        <h2>6. Why Mosquitoes Spread Disease</h2>
+        <p>Mosquitoes are dangerous because they can be <strong>vectors</strong> — carriers that move viruses or parasites from one host to another.</p>
+        <p>When an infected mosquito feeds, it injects saliva into the skin. If the mosquito is carrying a pathogen, that saliva can transfer the disease into the bloodstream.</p>
+        <p>One familiar example is <strong>malaria</strong>, caused by a parasite that lives inside certain mosquitoes. After biting an infected person, the mosquito can later pass the parasite to another person.</p>
+        <p>It is important to know that mosquito diseases do not spread from person to person directly. The mosquito is the middleman.</p>
+
+        <h2>7. Why Some People Get Bitten More</h2>
+        <p>Not everyone is equally attractive to mosquitoes. Some factors that make a person more likely to be bitten include:</p>
+        <ul>
+          <li>Breathing out more carbon dioxide</li>
+          <li>Warmer body temperature</li>
+          <li>Specific skin odors produced by sweat and bacteria</li>
+          <li>Wearing darker clothing</li>
+        </ul>
+        <p>That is why people who exercise, are pregnant, or simply have a certain body chemistry can receive more bites than others.</p>
+
+        <h2>8. Why They Are One of the Deadliest Animals</h2>
+        <p>Mosquitoes are listed among the deadliest animals because of the diseases they carry, not because their bite is strong or poisonous. The danger comes from what is passed into the bloodstream during feeding.</p>
+        <p><strong>Major diseases carried by mosquitoes include:</strong></p>
+        <ul>
+          <li>Malaria</li>
+          <li>Dengue fever</li>
+          <li>Zika virus</li>
+          <li>West Nile virus</li>
+          <li>Yellow fever</li>
+          <li>Chikungunya</li>
+        </ul>
+        <p>Even though only a small number of mosquito species spread these diseases, their ability to survive in many environments means the risk is widespread.</p>
+
+        <h2>9. How People Stay Safe</h2>
+        <p>People protect themselves from mosquitoes in three ways:</p>
+        <ul>
+          <li><strong>Personal protection</strong> like repellents, long sleeves, and bed nets</li>
+          <li><strong>Environmental control</strong> such as removing standing water and using window screens</li>
+          <li><strong>Community action</strong> including larvicides, biological controls, and vaccine campaigns</li>
+        </ul>
+
+        <h2>10. Do Mosquitoes Have a Purpose?</h2>
+        <p>Mosquitoes are part of a larger ecosystem. They are food for birds, fish, bats, and other insects, and their larvae help move nutrients through water systems.</p>
+        <p>At the same time, their role as disease carriers makes them one of the most complex and important species to study from a human health perspective.</p>
+
+        <h2>11. Final Thoughts</h2>
+        <p>This research changed how I think about mosquitoes. They are not simply annoying insects. They are tiny animals with a powerful impact on health, science, and the world around us.</p>
+        <p>Mosquitoes remind us that small things can matter a lot. Learning more about them helps us understand how biology, environment, and human behavior connect.</p>
+        <p>If you want to reduce risk, the best strategy is to combine personal care with smart, community-level actions.</p>
+
+        <div class="comments-section" id="commentsSection">
+          <h2>Discussion</h2>
+          <p class="muted">Share your thoughts, questions, or personal experiences with mosquitoes and disease prevention.</p>
+          <form id="commentForm" class="comment-form">
+            <label for="commentName">Name</label>
+            <input id="commentName" type="text" placeholder="Your name" required />
+            <label for="commentText">Comment</label>
+            <textarea id="commentText" placeholder="What did you think about the article?" required></textarea>
+            <button type="submit" class="btn-dark">Post Comment</button>
+          </form>
+          <div id="commentList" class="comment-list"></div>
+        </div>
+      `;
+      document.getElementById('articleContent').innerHTML = content;
+      renderCommentsSection();
+    }
+
           <li><strong>Adult:</strong> emerges, reproduces, and (in females) bites</li>
         </ul>
         <p>This cycle explains why removing standing water is one of the most effective ways to reduce mosquito populations.</p>
