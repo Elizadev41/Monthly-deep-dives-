@@ -170,26 +170,75 @@
 
   <script src="scrip.js"></script>
   <script>
-    // Get slug from URL
     const urlParams = new URLSearchParams(window.location.search);
     const slug = urlParams.get('slug');
-    
-    // Find the article
     const article = deepDives.find(d => d.slug === slug);
-    
+
     if (article) {
       document.title = article.title + ' - Monthly Deep Dives';
       document.getElementById('articleTitle').textContent = article.title;
       document.getElementById('articleCategory').textContent = article.category;
       document.getElementById('articleCategory').className = 'badge ' + getBadgeClass(article.category);
       document.getElementById('articleDate').textContent = article.date;
-      
-      // Load article content based on slug
       if (slug === 'mosquitoes') {
         loadMosquitoArticle();
       }
     }
-    
+
+    function commentsKey(slug) {
+      return `comments_${slug}`;
+    }
+
+    function getComments() {
+      return JSON.parse(localStorage.getItem(commentsKey(slug)) || '[]');
+    }
+
+    function saveComments(comments) {
+      localStorage.setItem(commentsKey(slug), JSON.stringify(comments));
+    }
+
+    function renderCommentsSection() {
+      const comments = getComments();
+      const list = document.getElementById('commentList');
+      if (!list) return;
+
+      list.innerHTML = comments.length === 0
+        ? '<p class="muted">No comments yet. Be the first to share your thoughts.</p>'
+        : comments.map(comment => `
+          <div class="comment-card ${comment.hidden ? 'comment-hidden' : ''}">
+            <div class="comment-meta">
+              <span><strong>${comment.name}</strong></span>
+              <span class="muted">${new Date(comment.date).toLocaleString()}</span>
+            </div>
+            <p>${comment.text}</p>
+            ${comment.hidden ? '<p class="muted small">Hidden by admin</p>' : ''}
+          </div>
+        `).join('');
+
+      const form = document.getElementById('commentForm');
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const name = document.getElementById('commentName').value.trim();
+        const text = document.getElementById('commentText').value.trim();
+        if (!name || !text) return;
+
+        const newComment = {
+          id: Date.now().toString(),
+          name,
+          text,
+          date: new Date().toISOString(),
+          hidden: false
+        };
+
+        const comments = getComments();
+        comments.unshift(newComment);
+        saveComments(comments);
+        renderCommentsSection();
+        form.reset();
+      });
+    }
+
     function loadMosquitoArticle() {
       const content = `
         <p><strong>Hook: Why One Tiny Insect Matters More Than You Think</strong></p>
@@ -306,8 +355,21 @@
         <p>Mosquitoes are not dangerous because of size or strength, but because of biology, behavior, and their ability to transmit disease efficiently. What makes them especially interesting is the gap between perception and reality: something so small can have such a large global impact.</p>
         <p>I also learned that mosquito attraction is not random. It is influenced by factors like carbon dioxide, body chemistry, heat, and even the environment. At the same time, humans have developed multiple layers of protection from personal repellents to global disease control systems.</p>
         <p>Overall, this topic showed me how interconnected biology, health, and environment really are. Something as small as a mosquito can connect individual human behavior to global public health.</p>
+
+        <div class="comments-section" id="commentsSection">
+          <h2>Discussion</h2>
+          <form id="commentForm" class="comment-form">
+            <label for="commentName">Name</label>
+            <input id="commentName" type="text" placeholder="Your name" required />
+            <label for="commentText">Comment</label>
+            <textarea id="commentText" placeholder="What did you think about the article?" required></textarea>
+            <button type="submit" class="btn-dark">Post Comment</button>
+          </form>
+          <div id="commentList" class="comment-list"></div>
+        </div>
       `;
       document.getElementById('articleContent').innerHTML = content;
+      renderCommentsSection();
     }
   </script>
 </body>
