@@ -221,6 +221,18 @@ a { color: inherit; text-decoration: none; }
 .subscribe-form button:hover { opacity: 0.8; }
 .success-msg { font-size: 14px; color: var(--muted); margin-top: 12px; }
 
+/* ASK form: stack fields vertically so email input is visible */
+.ask-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 100%;
+}
+.ask-form textarea,
+.ask-form input {
+  width: 100%;
+}
+
 /* MUTED / HELPERS */
 .muted { color: var(--muted); }
 .small { font-size: 13px; }
