@@ -35,13 +35,18 @@
       box-sizing: border-box;
     }
 
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
     .form-group small {
       display: block;
       margin-top: 5px;
       color: var(--muted);
     }
 
-    .admin-info ol {
+    .admin-info ul {
       padding-left: 20px;
     }
 
@@ -55,6 +60,12 @@
     }
 
     .hidden { display: none; }
+
+    .comment-actions button,
+    .draft-actions button {
+      margin-right: 8px;
+      margin-top: 8px;
+    }
   </style>
 </head>
 <body>
@@ -70,32 +81,74 @@
   </main>
 
   <main class="container hidden" id="adminScreen">
-    <h1>📧 Admin Panel</h1>
-    <p>This page is private. Use this only to copy subscriber emails and view questions.</p>
+    <h1>Admin Panel</h1>
+    <p>This page is private. Use it to manage your subscribers, questions, comments, and drafts.</p>
 
     <section class="admin-section">
       <h3>Subscriber List</h3>
-      <div id="subscriberList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 300px; overflow-y: auto;">
+      <div id="subscriberList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 260px; overflow-y: auto;">
         <p class="muted">No subscribers yet</p>
       </div>
       <button onclick="copySubscribers()" class="btn-outline" style="width: 100%; margin-top: 10px; padding: 10px;">
         Copy All Emails
       </button>
+    </section>
 
-      <hr style="margin: 30px 30px 30px 0;">
-
+    <section class="admin-section">
       <h3>Questions Submitted</h3>
-      <div id="questionsList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 300px; overflow-y: auto;">
+      <div id="questionsList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 260px; overflow-y: auto;">
         <p class="muted">No questions yet</p>
+      </div>
+    </section>
+
+    <section class="admin-section">
+      <h3>Comments Management</h3>
+      <p class="muted">Hide or delete comments from the article discussion area.</p>
+      <div id="commentsManagement" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 340px; overflow-y: auto;">
+        <p class="muted">No comments yet.</p>
+      </div>
+    </section>
+
+    <section class="admin-section">
+      <h3>Article Drafts</h3>
+      <div class="form-group">
+        <label for="draftTitle">Draft Title</label>
+        <input type="text" id="draftTitle" placeholder="Draft title" />
+      </div>
+      <div class="form-group">
+        <label for="draftSlug">Draft Slug</label>
+        <input type="text" id="draftSlug" placeholder="draft-name" />
+      </div>
+      <div class="form-group">
+        <label for="draftCategory">Category</label>
+        <input type="text" id="draftCategory" placeholder="Science, Sports, etc." />
+      </div>
+      <div class="form-group">
+        <label for="draftDate">Date</label>
+        <input type="text" id="draftDate" placeholder="2026-06" />
+      </div>
+      <div class="form-group">
+        <label for="draftAbstract">Abstract</label>
+        <textarea id="draftAbstract" placeholder="Short summary of the draft"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="draftContent">Draft Content</label>
+        <textarea id="draftContent" placeholder="Write your article draft here..."></textarea>
+      </div>
+      <button onclick="saveDraft()" class="btn-dark" style="width: 100%; padding: 12px;">Save Draft</button>
+      <div id="draftStatus" class="muted" style="margin-top: 10px;"></div>
+      <hr style="margin: 30px 0;">
+      <div id="draftsList" style="background: var(--secondary); padding: 15px; border-radius: 8px; max-height: 320px; overflow-y: auto;">
+        <p class="muted">No drafts saved yet.</p>
       </div>
     </section>
 
     <section class="admin-info" style="margin-top: 40px; padding: 20px; background: var(--secondary); border-radius: 8px;">
       <h3>How to use this page</h3>
       <ul style="line-height: 1.8;">
-        <li>Copy subscriber emails and send your newsletter from your own email account.</li>
-        <li>The site stores emails in the browser on this computer only.</li>
-        <li>Do not share this page link publicly.</li>
+        <li>Only you should access this page. Keep the link private.</li>
+        <li>Comments and drafts are stored in the browser on this computer.</li>
+        <li>Use the draft section to save ideas before they become articles.</li>
       </ul>
     </section>
   </main>
@@ -117,6 +170,8 @@
         error.style.display = 'none';
         displaySubscribers();
         displayQuestions();
+        displayComments();
+        displayDrafts();
       } else {
         error.textContent = 'Wrong password. Try again.';
         error.style.display = 'block';
@@ -151,6 +206,68 @@
       }
     }
 
+    function getAllComments() {
+      const comments = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('comments_')) {
+          const slug = key.replace('comments_', '');
+          const articleComments = JSON.parse(localStorage.getItem(key) || '[]');
+          articleComments.forEach(comment => {
+            comments.push({ ...comment, articleSlug: slug });
+          });
+        }
+      }
+      return comments.sort((a, b) => new Date(b.date) - new Date(a.date));
+    }
+
+    function displayComments() {
+      const comments = getAllComments();
+      const list = document.getElementById('commentsManagement');
+      if (comments.length === 0) {
+        list.innerHTML = '<p class="muted">No comments yet.</p>';
+        return;
+      }
+      list.innerHTML = comments.map((comment, index) => `
+        <div style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+          <strong>${index + 1}. [${comment.articleSlug}] ${comment.name}</strong>
+          <p style="margin: 6px 0 0 0;">${comment.text}</p>
+          <small class="muted">${new Date(comment.date).toLocaleString()}</small>
+          <div class="comment-actions">
+            <button class="btn-outline" onclick="toggleCommentHidden('${comment.articleSlug}', '${comment.id}')">
+              ${comment.hidden ? 'Unhide' : 'Hide'}
+            </button>
+            <button class="btn-outline" onclick="deleteComment('${comment.articleSlug}', '${comment.id}')">
+              Delete
+            </button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function saveCommentsForSlug(slug, comments) {
+      localStorage.setItem(`comments_${slug}`, JSON.stringify(comments));
+    }
+
+    function deleteComment(slug, id) {
+      const comments = JSON.parse(localStorage.getItem(`comments_${slug}`) || '[]');
+      const updated = comments.filter(comment => comment.id !== id);
+      saveCommentsForSlug(slug, updated);
+      displayComments();
+    }
+
+    function toggleCommentHidden(slug, id) {
+      const comments = JSON.parse(localStorage.getItem(`comments_${slug}`) || '[]');
+      const updated = comments.map(comment => {
+        if (comment.id === id) {
+          return { ...comment, hidden: !comment.hidden };
+        }
+        return comment;
+      });
+      saveCommentsForSlug(slug, updated);
+      displayComments();
+    }
+
     function copySubscribers() {
       const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
       const emails = subscribers.join(', ');
@@ -158,37 +275,64 @@
         alert('Copied ' + subscribers.length + ' emails to clipboard!');
       });
     }
+
+    function saveDraft() {
+      const title = document.getElementById('draftTitle').value.trim();
+      const slug = document.getElementById('draftSlug').value.trim();
+      const category = document.getElementById('draftCategory').value.trim();
+      const date = document.getElementById('draftDate').value.trim();
+      const abstract = document.getElementById('draftAbstract').value.trim();
+      const content = document.getElementById('draftContent').value.trim();
+      const status = document.getElementById('draftStatus');
+
+      if (!title || !slug) {
+        status.textContent = 'Please enter both a draft title and slug.';
+        return;
+      }
+
+      const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
+      const existing = drafts.find(d => d.slug === slug);
+      if (existing) {
+        status.textContent = 'A draft with that slug already exists. Choose a different slug.';
+        return;
+      }
+
+      drafts.push({ id: Date.now().toString(), title, slug, category, date, abstract, content });
+      localStorage.setItem('drafts', JSON.stringify(drafts));
+      status.textContent = 'Draft saved successfully.';
+      displayDrafts();
+      document.getElementById('draftTitle').value = '';
+      document.getElementById('draftSlug').value = '';
+      document.getElementById('draftCategory').value = '';
+      document.getElementById('draftDate').value = '';
+      document.getElementById('draftAbstract').value = '';
+      document.getElementById('draftContent').value = '';
+    }
+
+    function displayDrafts() {
+      const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
+      const list = document.getElementById('draftsList');
+      if (drafts.length === 0) {
+        list.innerHTML = '<p class="muted">No drafts saved yet.</p>';
+        return;
+      }
+      list.innerHTML = drafts.map(draft => `
+        <div style="padding: 12px 0; border-bottom: 1px solid var(--border);">
+          <strong>${draft.title}</strong> <span class="muted">(${draft.slug})</span>
+          <p style="margin: 6px 0 0 0;">${draft.abstract || '<em>No summary provided</em>'}</p>
+          <div class="draft-actions">
+            <button class="btn-outline" onclick="deleteDraft('${draft.id}')">Delete</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function deleteDraft(id) {
+      const drafts = JSON.parse(localStorage.getItem('drafts') || '[]');
+      const updated = drafts.filter(draft => draft.id !== id);
+      localStorage.setItem('drafts', JSON.stringify(updated));
+      displayDrafts();
+    }
   </script>
-</body>
-</html>
-    .form-group textarea {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      font-family: 'Lora', serif;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-
-    .form-group small {
-      display: block;
-      margin-top: 5px;
-      color: var(--muted);
-    }
-
-    .admin-info ol {
-      padding-left: 20px;
-    }
-
-    .admin-info a {
-      color: #3a6b3a;
-      text-decoration: underline;
-    }
-
-    .admin-info a:hover {
-      color: var(--fg);
-    }
-  </style>
 </body>
 </html>

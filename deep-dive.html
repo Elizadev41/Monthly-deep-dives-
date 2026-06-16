@@ -67,6 +67,51 @@
       font-weight: 600;
       color: var(--fg);
     }
+    .comments-section {
+      margin-top: 40px;
+      padding: 24px;
+      background: #f4f7f0;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .comment-form {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .comment-form input,
+    .comment-form textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Lora', serif;
+      font-size: 15px;
+      box-sizing: border-box;
+      resize: vertical;
+    }
+    .comment-list {
+      display: grid;
+      gap: 16px;
+    }
+    .comment-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .comment-hidden {
+      opacity: 0.55;
+      background: #ecece8;
+    }
+    .comment-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 10px;
+      font-size: 14px;
+      color: var(--muted);
+    }
   </style>
 </head>
 <body>
