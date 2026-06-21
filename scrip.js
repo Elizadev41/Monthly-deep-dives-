@@ -47,6 +47,44 @@ const deepDives = [
   }
 ];
 
+// Load mosquito article content
+function loadMosquitoArticle() {
+  const contentEl = document.getElementById('articleContent');
+  contentEl.innerHTML = `
+    <h2>The Deadliest Animal on Earth</h2>
+    <p>When we think of dangerous animals, our minds often jump to sharks, crocodiles, or venomous snakes. Yet the deadliest animal on our planet is far smaller—the mosquito. These tiny insects are responsible for more human deaths than any other creature, causing an estimated 700,000 to 1 million deaths annually.</p>
+    
+    <h2>Why Mosquitoes?</h2>
+    <p>Mosquitoes transmit diseases that affect billions of people worldwide. The primary culprits include:</p>
+    <ul>
+      <li><strong>Malaria:</strong> Transmitted by Anopheles mosquitoes, malaria kills around 400,000 people annually, mostly children in Africa.</li>
+      <li><strong>Dengue Fever:</strong> Affects 390 million people per year, with 25,000 fatal cases.</li>
+      <li><strong>Zika Virus:</strong> Causes severe birth defects and neurological complications.</li>
+      <li><strong>Yellow Fever:</strong> Has a mortality rate of 15-50% in severe cases.</li>
+      <li><strong>West Nile Virus:</strong> Spreads across North America and beyond.</li>
+    </ul>
+    
+    <h2>The Science Behind Their Success</h2>
+    <p>Mosquitoes are remarkably efficient vectors for disease transmission. Female mosquitoes require blood to reproduce, and they can detect their hosts from considerable distances using CO2 sensors and thermal receptors. This hunting behavior makes them excellent disease vectors.</p>
+    
+    <h2>Global Impact and Disparities</h2>
+    <p>The burden of mosquito-borne diseases falls disproportionately on developing nations, particularly in tropical and subtropical regions. Sub-Saharan Africa bears the brunt of malaria cases, while Southeast Asia and Latin America battle dengue fever.</p>
+    
+    <h2>Prevention and Control</h2>
+    <p>Current efforts to reduce mosquito-borne diseases include:</p>
+    <ul>
+      <li>Insecticide-treated bed nets</li>
+      <li>Indoor residual spraying</li>
+      <li>Vaccination programs (when available)</li>
+      <li>Wetland management and drainage</li>
+      <li>Genetic mosquito control research</li>
+    </ul>
+    
+    <h2>Conclusion</h2>
+    <p>The mosquito's tiny frame belies its enormous impact on human health and mortality. While we continue to research new prevention methods and treatments, the mosquito remains a formidable public health challenge that demands our attention and resources.</p>
+  `;
+}
+
 // Render latest dive on home page
 const latestEl = document.getElementById('latestDive');
 if (latestEl) {
