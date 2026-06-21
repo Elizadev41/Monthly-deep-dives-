@@ -63,20 +63,24 @@
   <script>
     // Render archive grid
     const archiveGrid = document.getElementById('archiveGrid');
-    if (archiveGrid && deepDives.length > 0) {
-      archiveGrid.innerHTML = deepDives.map(dive => {
-        return `
-          <a href="deep-dive.html?slug=${dive.slug}" class="card">
-            <div class="card-meta">
-              <span class="badge ${getBadgeClass(dive.category)}">${dive.category}</span>
-              <span class="card-date">${dive.date}</span>
-            </div>
-            <h3>${dive.title}</h3>
-            <p>${dive.abstract}</p>
-            <span class="card-arrow">Read it →</span>
-          </a>
-        `;
-      }).join('');
+    if (archiveGrid) {
+      if (deepDives && deepDives.length > 0) {
+        archiveGrid.innerHTML = deepDives.map(dive => {
+          return `
+            <a href="deep-dive.html?slug=${dive.slug}" class="card">
+              <div class="card-meta">
+                <span class="badge ${getBadgeClass(dive.category)}">${dive.category}</span>
+                <span class="card-date">${dive.date}</span>
+              </div>
+              <h3>${dive.title}</h3>
+              <p>${dive.abstract}</p>
+              <span class="card-arrow">Read it →</span>
+            </a>
+          `;
+        }).join('');
+      } else {
+        archiveGrid.innerHTML = '<p class="muted">No deep dives published yet. Check back soon!</p>';
+      }
     }
   </script>
 </body>
